@@ -47,4 +47,10 @@ diesel::joinable!(auto -> route (route));
 diesel::joinable!(route_stations -> route (route));
 diesel::joinable!(route_stations -> station (station));
 
-diesel::allow_tables_to_appear_in_same_query!(auto, distance, route, route_stations, station,);
+diesel::allow_tables_to_appear_in_same_query!(
+    auto,
+    distance,
+    route,
+    route_stations,
+    station,
+);
