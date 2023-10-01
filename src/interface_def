@@ -1,0 +1,58 @@
+// //! Interface definitions
+//
+// use std::collections::{HashMap, VecDeque};
+// use std::time::SystemTime;
+//
+// #[allow(dead_code)]
+// #[derive(Debug)]
+// pub(crate) struct Automotive {
+//     pub(crate) license: &'static str,
+//     pub(crate) aut_type: CarType,
+//     pub(crate) location: Location, // lat,long
+//     pub(crate) state: AutomotiveState,
+//     pub(crate) departure_timestamp: Option<SystemTime>,
+// }
+// #[allow(dead_code)]
+// #[derive(Debug)]
+// pub(crate) enum Location{
+//     GPS(i32,i32),
+//     STATION(Station)
+// }
+// #[allow(dead_code)]
+// #[derive(Debug, Clone, Copy)]
+// pub(crate) struct Station {
+//     pub(crate) name: &'static str,
+// }
+// impl Station{
+//     pub fn new(name: &'static str) -> Self {
+//         Station{
+//             name,
+//         }
+//     }
+// }
+// #[allow(dead_code)]
+// #[derive(Debug)]
+// pub(crate) struct Route {
+//     pub(crate) name: &'static str,
+//     pub(crate) list: VecDeque<Station>,
+//     pub(crate) automotive: HashMap<&'static str, Automotive>,
+//     pub(crate) distances: HashMap<(Station,Station), i32>
+// }
+// #[allow(dead_code)]
+// #[derive(Debug)]
+// pub(crate) struct City {
+//     pub(crate) routes: HashMap<&'static str, Route>, //Name of the route M1/M2
+// }
+// #[allow(dead_code)]
+// #[derive(Debug)]
+// pub(crate) enum AutomotiveState {
+//     Available,
+//     OnRoute,
+//     OnReverseRoute,
+//     Stopped
+// }
+// #[allow(dead_code)]
+// #[derive(Debug)]
+// pub(crate) enum CarType {
+//     Bus,
+// }

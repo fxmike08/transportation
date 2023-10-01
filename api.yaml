@@ -1,0 +1,452 @@
+openapi: 3.0.3
+info:
+  title: Automotive traffic control - OpenAPI 3.0
+  description: |-
+
+  termsOfService: fxmike08
+  contact:
+    email: fxmike08@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 0.0.1
+tags:
+  - name: provisioning
+    description: Provision as admin specific data
+  - name: state
+    description: Obtain or changing states about specific data
+
+servers:
+  - url: http://192.168.92.13:{port}/v1
+    variables:
+      port:
+        enum:
+          - '443'
+          - '8443'
+          - '80'
+          - '8090'
+        default: '8090'
+paths:
+  /admin/distance/{a}/{b}:
+    put:
+      tags:
+        - provisioning
+      summary: Update or add distances between two points/stations
+      description: Update or add distances between two points/stations used in making ETA
+      operationId: updatePointDistances
+      parameters:
+        - in: path
+          name: a
+          description: Point/Station A
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: b
+          description: Point/Station B
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Add distance between points
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Distances'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Route'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Route'
+        '400':
+          description: Invalid ID supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errors'
+        '404':
+          description: Route not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errors'
+        '405':
+          description: Validation exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errors'
+
+  /distance/{a}/{b}:
+    get:
+      tags:
+        - state
+      summary: Get distance between two points/stations
+      description: Get distance between two points/stations
+      operationId: getPointDistances
+      parameters:
+        - in: path
+          name: a
+          description: Point/Station A
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: b
+          description: Point/Station B
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Distances'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Distances'
+        '400':
+          description: Invalid parameters supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errors'
+        '404':
+          description: Distance not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errors'
+        '405':
+          description: Validation exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errors'
+
+  /admin/route/{id}:
+    put:
+      tags:
+        - provisioning
+      summary: Update an existing route
+      description: Update an existing route Id
+      operationId: updateRoute
+      parameters:
+        - in: path
+          name: id
+          description: ID of route
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Update an existent route
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Route'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Route'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Route'
+        '400':
+          description: Invalid ID supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errors'
+        '404':
+          description: Route not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errors'
+        '405':
+          description: Validation exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errors'
+
+  /route/{id}:
+    get:
+      tags:
+        - state
+      summary: Get an existing route by Id
+      description: Get an existing route by Id
+      operationId: getRoute
+      parameters:
+        - in: path
+          name: id
+          description: ID of route
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Route'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Route'
+        '400':
+          description: Invalid ID supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errors'
+        '404':
+          description: Route not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errors'
+        '405':
+          description: Validation exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errors'
+
+  /station/{station}:
+    get:
+      tags:
+        - state
+      parameters:
+        - in: path
+          name: station
+          description: Station name
+          required: true
+          schema:
+            type: string
+      summary: Get station upcoming events
+      description: Get station upcoming events
+      operationId: getStationEvents
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Station'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Station'
+        '400':
+          description: Invalid station supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errors'
+        '404':
+          description: Station not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errors'
+        '405':
+          description: Validation exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errors'
+
+  /automotive/{license}:
+    put:
+      tags:
+        - provisioning
+        - state
+      parameters:
+        - in: path
+          name: license
+          description: ID of automotive license
+          required: true
+          schema:
+            type: string
+
+      summary: Update an existing automotive
+      description: Update an existing route Id
+      operationId: updateAutomotive
+      requestBody:
+        description: Update an existent route
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Automotive'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Automotive'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Automotive'
+        '400':
+          description: Invalid ID supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errors'
+        '404':
+          description: Route not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errors'
+        '405':
+          description: Validation exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errors'
+
+    get:
+      tags:
+        - state
+      parameters:
+        - in: path
+          name: license
+          description: ID of the automotive license
+          required: true
+          schema:
+            type: string
+      summary: Get info about automotive
+      description: Get existing info about automotive based on license Id
+      operationId: getAutomotive
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Automotive'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Automotive'
+        '400':
+          description: Invalid ID supplied
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errors'
+        '404':
+          description: Automotive not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errors'
+        '405':
+          description: Validation exception
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/errors'
+
+
+components:
+  schemas:
+    errors:
+      type: object
+      required:
+        - message
+        - origin
+        - error_id
+      properties:
+        request_id:
+          type: string
+        message:
+          type: string
+        origin:
+          type: string
+        error_id:
+          type: string
+        variables:
+          type: array
+          items:
+            type: object
+
+    Route:
+      type: object
+      required:
+        - list
+      properties:
+        id:
+          type: string
+          example: name of the route
+        list:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+    Automotive:
+      type: object
+      properties:
+        license:
+          type: string
+        state:
+          type: string
+          enum: [Available, OnRoute, OnReverseRoute, Stopped]
+        name:
+          type: string
+        type:
+          type: string
+          enum:
+            - Bus
+            - Car
+        location:
+          items:
+            $ref: '#/components/schemas/Location'
+    Location:
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [GPS, Station]
+        value:
+          type: string
+          example: (lat, longitude) or StationName
+    Distances:
+      type: object
+      required:
+        - distance
+      properties:
+        a:
+          type: string
+        b:
+          type: string
+        distance:
+          type: integer
+          description: number of KMs between point/stations
+    Station:
+      type: array
+      items:
+        $ref: '#/components/schemas/auto'
+    auto:
+      type: object
+      properties:
+        name:
+          type: string
+        time:
+          type: number
