@@ -2,14 +2,14 @@
 
 use async_trait::async_trait;
 use log::info;
-use swagger::{Has, XSpanIdString};
 use swagger::ApiError;
+use swagger::{Has, XSpanIdString};
+use transportation_api::models;
 use transportation_api::{
     Api, GetAutomotiveResponse, GetPointDistancesResponse, GetRouteResponse,
     GetStationEventsResponse, UpdateAutomotiveResponse, UpdatePointDistancesResponse,
     UpdateRouteResponse,
 };
-use transportation_api::models;
 
 use crate::db::Db;
 use crate::errors::ServiceError;

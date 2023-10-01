@@ -27,7 +27,7 @@ pub async fn start_server() {
         .expect("Failed to parse bind address");
 
     info!("Start listening {}", addr);
-    let manager = ConnectionManager::<SqliteConnection>::new("/tmp/Tansportation.db");
+    let manager = ConnectionManager::<SqliteConnection>::new("/tmp/Transportation.db");
     let database_pool = Box::leak(Box::new(
         Pool::builder()
             .build(manager)

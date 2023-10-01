@@ -10,9 +10,9 @@ pub enum ServiceError {
     InternalError,
 }
 
-impl Into<ModelError> for ServiceError {
-    fn into(self) -> ModelError {
-        match self {
+impl From<ServiceError> for ModelError {
+    fn from(s: ServiceError) -> ModelError {
+        match s {
             NotFound => make_err("001", "The specified record does not exist."),
             DataBaseError => make_err(
                 "100",

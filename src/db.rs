@@ -53,9 +53,9 @@ impl<'a> Db<'a> {
                             .inner_join(StationTable)
                             .filter(route_stations::route.eq(r.id))
                             .load::<(RouteStation,Station)>(&mut connection)
-                            .and_then(|s| {
+                            .map(|s| {
                                 let stations = s.into_iter().map(|(_,b)| b).collect();
-                                Ok(convert_to_route_result(r.clone(), stations))
+                                convert_to_route_result(r.clone(), stations)
                             })
             })
             .map_err(|e| convert_to_error(e, x_span_id))

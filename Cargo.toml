@@ -13,7 +13,7 @@ transportation_api= { path = "transportation_api" }
 
 # External libraries
 diesel = { version = "2.1.0", features = ["sqlite", "r2d2"]}
-env_logger = "0.7"
+env_logger = "0.10.0"
 
 tokio = { version = "1.14", features = ["full"] }
 error-chain = "0.12.4"
